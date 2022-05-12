@@ -18,4 +18,8 @@ public class BaseEntity {
     private Timestamp created_date;
     @UpdateTimestamp
     private Timestamp updated_date;
+    @Column(name = "created_by")
+    private String created_by;
+    @Column(name = "updated_by")
+    private String updated_by;
 }
