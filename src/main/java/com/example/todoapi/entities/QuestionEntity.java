@@ -33,4 +33,6 @@ public class QuestionEntity extends BaseEntity{
     private String image_url;
     @Column(name = "audio_url")
     private String audio_url;
+    @OneToOne(mappedBy = "question",targetEntity = QuestionEntity.class)
+    private ResultEntity result;
 }
