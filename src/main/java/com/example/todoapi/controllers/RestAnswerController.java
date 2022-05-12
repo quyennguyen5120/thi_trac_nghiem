@@ -25,12 +25,13 @@ public class RestAnswerController {
     @PostMapping(produces = "application/json",value = "/add")
     public ResponseEntity<?> addAnswer(@RequestBody AnswerDTO answerDTO){
         answerService.insertNew(answerDTO);
-        return ResponseEntity.ok(answerDTO.toString() +"added");
+        return ResponseEntity.ok(answerDTO);
     }
     @PutMapping(produces = "application/json",value = "/edit/{id}")
     public ResponseEntity<?> editAnswer(@PathVariable("id") Long id, @RequestBody AnswerDTO answerDTO){
         AnswerDTO answerDTO1 = answerService.getByID(id);
         answerDTO.setId(id);
+
         if(answerDTO.getIsright()!=null)
         answerDTO1.setIsright(answerDTO.getIsright());
         if(answerDTO.getAnswer_content()!=null){
@@ -40,12 +41,13 @@ public class RestAnswerController {
             answerDTO1.setQuestion_id(answerDTO.getQuestion_id());
         }
         answerService.updateOld(answerDTO1);
-        return ResponseEntity.ok(answerDTO1.toString() +"editted");
+        return ResponseEntity.ok(answerDTO1);
+
     }
     @DeleteMapping(produces = "application/json",value = "/delete/{id}")
     public ResponseEntity<?> delAnswer(@PathVariable("id") Long id){
         String response = answerService.getByID(id).toString();
         answerService.deleteOld(id);
-        return ResponseEntity.ok( response + "deleted");
+        return ResponseEntity.ok(response);
     }
 }
