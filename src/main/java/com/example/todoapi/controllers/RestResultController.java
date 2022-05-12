@@ -22,16 +22,22 @@ public class RestResultController {
     public ResponseEntity<?> getAnswerByID(@PathVariable("id") Long id){
         return ResponseEntity.ok(resultService.getByID(id));
     }
-    @PostMapping(produces = "application/json",value = "/add")
-    public ResponseEntity<?> addAnswer(@RequestBody ResultDTO resultDTO){
-        resultService.insertNew(resultDTO);
-        return ResponseEntity.ok(resultDTO.toString() +"added");
-    }
+//    @PostMapping(produces = "application/json",value = "/add")
+//    public ResponseEntity<?> addAnswer(@RequestBody ResultDTO resultDTO){
+//        resultService.insertNew(resultDTO);
+//        return ResponseEntity.ok(resultDTO.toString() +"added");
+//    }
     @PutMapping(produces = "application/json",value = "/edit/{id}")
     public ResponseEntity<?> editAnswer(@PathVariable("id") Long id, @RequestBody ResultDTO resultDTO){
+        ResultDTO resultDTO1 = resultService.getByID(id);
         resultDTO.setId(id);
-        resultService.updateOld(resultDTO);
-        return ResponseEntity.ok(resultDTO.toString() +"editted");
+        if(resultDTO.getQuestion_id()!=null)
+            resultDTO1.setQuestion_id(resultDTO.getQuestion_id());
+        if(resultDTO.getMark()!=null){
+            resultDTO1.setMark(resultDTO.getMark());
+        }
+        resultService.updateOld(resultDTO1);
+        return ResponseEntity.ok(resultDTO1.toString() +"editted");
     }
     @DeleteMapping(produces = "application/json",value = "/delete/{id}")
     public ResponseEntity<?> delAnswer(@PathVariable("id") Long id){

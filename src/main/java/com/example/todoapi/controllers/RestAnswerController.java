@@ -29,9 +29,18 @@ public class RestAnswerController {
     }
     @PutMapping(produces = "application/json",value = "/edit/{id}")
     public ResponseEntity<?> editAnswer(@PathVariable("id") Long id, @RequestBody AnswerDTO answerDTO){
+        AnswerDTO answerDTO1 = answerService.getByID(id);
         answerDTO.setId(id);
-        answerService.updateOld(answerDTO);
-        return ResponseEntity.ok(answerDTO.toString() +"editted");
+        if(answerDTO.getIsright()!=null)
+        answerDTO1.setIsright(answerDTO.getIsright());
+        if(answerDTO.getAnswer_content()!=null){
+            answerDTO1.setAnswer_content(answerDTO.getAnswer_content());
+        }
+        if(answerDTO.getQuestion_id()!=null){
+            answerDTO1.setQuestion_id(answerDTO.getQuestion_id());
+        }
+        answerService.updateOld(answerDTO1);
+        return ResponseEntity.ok(answerDTO1.toString() +"editted");
     }
     @DeleteMapping(produces = "application/json",value = "/delete/{id}")
     public ResponseEntity<?> delAnswer(@PathVariable("id") Long id){
