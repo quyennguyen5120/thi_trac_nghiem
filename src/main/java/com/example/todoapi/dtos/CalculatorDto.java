@@ -11,6 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 public class CalculatorDto {
     private Long userId;
-    private Long ExamId;
+    private Long examId;
     private List<QuestionDto> lstQuestion;
 }
