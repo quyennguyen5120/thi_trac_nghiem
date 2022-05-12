@@ -17,6 +17,8 @@ public class AnswerEntity extends BaseEntity{
     private Long id;
     @Column(name = "answer_content")
     private String answer_content;
+    @Column(name = "isRight")
+    private Boolean isRight;
     @ManyToOne(targetEntity = QuestionEntity.class)
     @JoinColumn(name = "question_id")
     private QuestionEntity question;
