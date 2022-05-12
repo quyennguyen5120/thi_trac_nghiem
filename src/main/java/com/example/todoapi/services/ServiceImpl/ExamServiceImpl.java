@@ -34,10 +34,12 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public void insertNew(ExamDTO examDTO) {
         Set<QuestionEntity> questionEntitySet = new HashSet<>();
-        examDTO.getQuestionDtos().forEach(questionDto -> {
-            QuestionEntity question = questionRepository.getById(questionDto.getId());
-            questionEntitySet.add(question);
-        });
+        if (examDTO.getQuestionDtos() != null){
+            examDTO.getQuestionDtos().forEach(questionDto -> {
+                QuestionEntity question = questionRepository.getById(questionDto.getId());
+                questionEntitySet.add(question);
+            });
+        }
         ExamEntity examEntity = ExamEntity.builder()
                 .exam_name(examDTO.getExam_name())
                 .questionEntities(questionEntitySet)
@@ -49,10 +51,12 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public void updateOld(ExamDTO examDTO) {
         Set<QuestionEntity> questionEntitySet = new HashSet<>();
-        examDTO.getQuestionDtos().forEach(questionDto -> {
-            QuestionEntity question = questionRepository.getById(questionDto.getId());
-            questionEntitySet.add(question);
-        });
+        if (examDTO.getQuestionDtos() != null) {
+            examDTO.getQuestionDtos().forEach(questionDto -> {
+                QuestionEntity question = questionRepository.getById(questionDto.getId());
+                questionEntitySet.add(question);
+            });
+        }
         ExamEntity examEntity = ExamEntity.builder()
                 .id(examDTO.getId())
                 .exam_name(examDTO.getExam_name())
