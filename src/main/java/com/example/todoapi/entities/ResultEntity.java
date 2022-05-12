@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table(name = "tbl_result")
-public class ResultEntity {
+public class ResultEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

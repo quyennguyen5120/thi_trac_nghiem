@@ -12,7 +12,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "tbl_exam")
-public class ExamEntity {
+public class ExamEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
