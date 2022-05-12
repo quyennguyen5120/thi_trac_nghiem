@@ -1,4 +1,4 @@
-package com.example.todoapi.services;
+package com.example.todoapi.services.ServiceImpl;
 
 import com.example.todoapi.entities.UserEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;

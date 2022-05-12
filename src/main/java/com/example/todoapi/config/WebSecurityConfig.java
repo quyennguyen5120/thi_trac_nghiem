@@ -1,7 +1,7 @@
 package com.example.todoapi.config;
 
 import com.example.todoapi.jwt.AuthEntryPointJwt;
-import com.example.todoapi.services.UserdetailServiceImpl;
+import com.example.todoapi.services.ServiceImpl.UserdetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,9 +1,10 @@
-package com.example.todoapi.services;
+package com.example.todoapi.services.ServiceImpl;
 
 import com.example.todoapi.dtos.NoteShow;
 import com.example.todoapi.entities.NoteEntity;
 import com.example.todoapi.repositories.NoteRepository;
 import com.example.todoapi.repositories.UserRepository;
+import com.example.todoapi.services.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class NoteServiceImp implements NoteService{
+public class NoteServiceImp implements NoteService {
     @Autowired
     NoteRepository noteRepository;
     @Autowired
