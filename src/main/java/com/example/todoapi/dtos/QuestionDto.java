@@ -52,8 +52,10 @@ public class QuestionDto {
                 List<AnswerDTO> answerDTOS = new ArrayList<>();
                 for(AnswerEntity answerEntity : question.getAnswerEntitySet()){
                     answerDto = new AnswerDTO();
-                    answerDto.setAnswer_content(answerEntity.getAnswer_content());
                     answerDto.setId(answerEntity.getId());
+                    answerDto.setAnswer_content(answerEntity.getAnswer_content());
+                    answerDto.setQuestion_id(question.getId());
+                    answerDto.setIsright(answerEntity.getIsRight());
                     answerDTOS.add(answerDto);
                 }
                 this.answerDTOS = answerDTOS;
