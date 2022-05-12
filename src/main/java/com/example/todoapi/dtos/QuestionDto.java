@@ -63,6 +63,7 @@ public class QuestionDto {
                 examDTO.setId(question.getExam().getId());
                 examDTO.setExam_name(question.getExam().getExam_name());
                 examDTO.setTime_limit(question.getExam().getTime_limit());
+                this.examDto = examDTO;
             }
 
         }

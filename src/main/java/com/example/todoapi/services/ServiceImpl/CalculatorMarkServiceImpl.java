@@ -11,6 +11,7 @@ import com.example.todoapi.entities.ResultEntity;
 import com.example.todoapi.repositories.AnswerRepository;
 import com.example.todoapi.repositories.ExamRepository;
 import com.example.todoapi.repositories.QuestionRepository;
+import com.example.todoapi.repositories.ResultRepository;
 import com.example.todoapi.services.CalculatorMarkService;
 import com.example.todoapi.services.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class CalculatorMarkServiceImpl implements CalculatorMarkService {
     QuestionRepository questionRepository;
     @Autowired
     AnswerRepository answerRepository;
+    @Autowired
+    ResultRepository resultRepository;
 
     public void calculartorMark(CalculatorDto calculatorDto){
         ResultEntity resultEntity = null;
@@ -51,9 +54,10 @@ public class CalculatorMarkServiceImpl implements CalculatorMarkService {
                            resultEntity.setMark(0D);
                            resultEntity.setQuestion(question1);
                        }
+                        resultRepository.save(resultEntity);
                         //// lưu lai result
                     }
-                    if(question.getQuestion_type() == Const.TypeAnsewr.MUTILIP_ANWSER.getValue()){
+                   else if(question.getQuestion_type() == Const.TypeAnsewr.MUTILIP_ANWSER.getValue()){
                         Boolean checkRighit = this.checkRightMulti(question.getListIdAnswer());
                     }
                 }
