@@ -31,6 +31,18 @@ public class RestExamController {
         return ResponseEntity.badRequest().body(null);
     }
 
-//    @PostMapping("/update")
-//    public ResponseEntity<?> 
+    @PostMapping("/update")
+    public ResponseEntity<?> updateExam(@RequestBody ExamDTO examDTO){
+        if (examDTO != null){
+            examService.updateOld(examDTO);
+            return ResponseEntity.ok(examDTO);
+        }
+        return ResponseEntity.badRequest().body(null);
+    }
+
+    @GetMapping("/delete/{id}")
+    public ResponseEntity<?> deleteExam(@PathVariable Long id){
+        examService.deleteOld(id);
+        return ResponseEntity.ok(id);
+    }
 }
