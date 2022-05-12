@@ -34,29 +34,31 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public void insertNew(ExamDTO examDTO) {
         Set<QuestionEntity> questionEntitySet = new HashSet<>();
-        examDTO.getQuestionId().forEach(questionEntityId -> {
-            QuestionEntity question = questionRepository.getById(questionEntityId);
+        examDTO.getQuestionDtos().forEach(questionDto -> {
+            QuestionEntity question = questionRepository.getById(questionDto.getId());
             questionEntitySet.add(question);
         });
-        ExamEntity examEntity = new ExamEntity();
-        examEntity.setExam_name(examDTO.getExam_name());
-        examEntity.setQuestionEntities(questionEntitySet);
-        examEntity.setTime_limit(examDTO.getTime_limit());
+        ExamEntity examEntity = ExamEntity.builder()
+                .exam_name(examDTO.getExam_name())
+                .questionEntities(questionEntitySet)
+                .time_limit(examDTO.getTime_limit())
+                .build();
         examRepository.save(examEntity);
     }
 
     @Override
     public void updateOld(ExamDTO examDTO) {
         Set<QuestionEntity> questionEntitySet = new HashSet<>();
-        examDTO.getQuestionId().forEach(questionEntityId -> {
-            QuestionEntity question = questionRepository.getById(questionEntityId);
+        examDTO.getQuestionDtos().forEach(questionDto -> {
+            QuestionEntity question = questionRepository.getById(questionDto.getId());
             questionEntitySet.add(question);
         });
-        ExamEntity examEntity = new ExamEntity();
-        examEntity.setId(examDTO.getId());
-        examEntity.setExam_name(examDTO.getExam_name());
-        examEntity.setQuestionEntities(questionEntitySet);
-        examEntity.setTime_limit(examDTO.getTime_limit());
+        ExamEntity examEntity = ExamEntity.builder()
+                .id(examDTO.getId())
+                .exam_name(examDTO.getExam_name())
+                .questionEntities(questionEntitySet)
+                .time_limit(examDTO.getTime_limit())
+                .build();
         examRepository.save(examEntity);
     }
 
