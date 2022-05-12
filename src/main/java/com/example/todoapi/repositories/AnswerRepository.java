@@ -3,12 +3,19 @@ package com.example.todoapi.repositories;
 import com.example.todoapi.dtos.AnswerDTO;
 import com.example.todoapi.entities.AnswerEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+<<<<<<< HEAD
+=======
+
+>>>>>>> d379dce7950ff046a5c3079d76bfb88935baafaa
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+<<<<<<< HEAD
 import org.springframework.stereotype.Repository;
+=======
+>>>>>>> d379dce7950ff046a5c3079d76bfb88935baafaa
 
 @Repository
 public interface AnswerRepository extends JpaRepository<AnswerEntity, Long> {
