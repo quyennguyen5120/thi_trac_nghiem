@@ -1,7 +1,7 @@
 package com.example.todoapi.config;
 
 import com.example.todoapi.jwt.JwtUtils;
-import com.example.todoapi.services.UserdetailServiceImpl;
+import com.example.todoapi.services.ServiceImpl.UserdetailServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

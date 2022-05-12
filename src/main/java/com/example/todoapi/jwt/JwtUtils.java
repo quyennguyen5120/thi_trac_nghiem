@@ -1,6 +1,6 @@
 package com.example.todoapi.jwt;
 
-import com.example.todoapi.services.UserDetailsImpl;
+import com.example.todoapi.services.ServiceImpl.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
