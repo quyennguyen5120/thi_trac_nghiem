@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -21,8 +22,8 @@ public class QuestionDto {
     private Long id;
     private String question_content;
     private int question_type;
-    private List<AnswerEntity> answerEntitySet;
-    private ExamEntity exam;
+    private List<AnswerDTO> answerDTOS;
+    private ExamDTO examDto;
     private Double mark;
     private String video_url;
     private String image_url;
@@ -30,6 +31,38 @@ public class QuestionDto {
 
     public QuestionDto(QuestionEntity question){
         if(question!= null){
+            this.id = question.getId();
+            if(question.getQuestion_content() != null)
+                this.question_content = question.getQuestion_content();
+            if(question.getQuestion_type() != -1)
+                this.question_type = question.getQuestion_type();
+            if(question.getMark() != null)
+                this.mark = question.getMark();
+            if(question.getVideo_url() != null)
+                this.video_url = question.getVideo_url();
+            if(question.getImage_url() != null)
+                this.image_url = question.getImage_url();
+            if(question.getAudio_url() != null){
+                this.audio_url = question.getAudio_url();
+            }
+            if(question.getAnswerEntitySet() != null && question.getAnswerEntitySet().size() > 0){
+                AnswerDTO answerDto = null;
+                List<AnswerDTO> answerDTOS = new ArrayList<>();
+                for(AnswerEntity answerEntity : question.getAnswerEntitySet()){
+                    answerDto = new AnswerDTO();
+                    answerDto.setAnswer_content(answerEntity.getAnswer_content());
+                    answerDto.setId(answerEntity.getId());
+                    answerDTOS.add(answerDto);
+                }
+                this.answerDTOS = answerDTOS;
+            }
+            if(question.getExam() != null){
+                ExamDTO examDTO = new ExamDTO();
+                examDTO.setId(question.getExam().getId());
+                examDTO.setExam_name(question.getExam().getExam_name());
+                examDTO.setTime_limit(question.getExam().getTime_limit());
+            }
+
         }
     }
 }
