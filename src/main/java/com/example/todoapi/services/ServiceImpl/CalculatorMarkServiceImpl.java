@@ -4,6 +4,7 @@ import com.example.todoapi.Utils.Const;
 import com.example.todoapi.dtos.AnswerDTO;
 import com.example.todoapi.dtos.CalculatorDto;
 import com.example.todoapi.dtos.QuestionDto;
+import com.example.todoapi.dtos.ResultDTO;
 import com.example.todoapi.entities.AnswerEntity;
 import com.example.todoapi.entities.ExamEntity;
 import com.example.todoapi.entities.QuestionEntity;
@@ -19,6 +20,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,8 +39,10 @@ public class CalculatorMarkServiceImpl implements CalculatorMarkService {
     ResultRepository resultRepository;
 
     @Override
-    public void calculartorMark(CalculatorDto calculatorDto){
+    public List<ResultDTO> calculartorMark(CalculatorDto calculatorDto){
         ResultEntity resultEntity = null;
+        List<ResultDTO> resultDTOS = new ArrayList<>();
+        ResultDTO resultDTO = null;
         if(calculatorDto.getExamId() != null){
             ExamEntity examEntity = examRepository.getById(calculatorDto.getExamId());
             if(examEntity != null){
@@ -55,7 +59,9 @@ public class CalculatorMarkServiceImpl implements CalculatorMarkService {
                            resultEntity.setMark(0D);
                            resultEntity.setQuestion(question1);
                        }
-                        resultRepository.save(resultEntity);
+                        resultEntity = resultRepository.save(resultEntity);
+                        resultDTO = new ResultDTO(resultEntity);
+                        resultDTOS.add(resultDTO);
                     }
                    else if(question.getQuestion_type() == Const.TypeAnsewr.MUTILIP_ANWSER.getValue()){
                         List<AnswerDTO> answerDTOS = answerRepository.getMultiAnswerRightByQuestion(question.getId(), question.getListIdAnswer());
@@ -72,11 +78,14 @@ public class CalculatorMarkServiceImpl implements CalculatorMarkService {
                         }
                         else
                             resultEntity.setMark(0D);
-                        resultRepository.save(resultEntity);
+                        resultEntity = resultRepository.save(resultEntity);
+                        resultDTO = new ResultDTO(resultEntity);
+                        resultDTOS.add(resultDTO);
                     }
                 }
             }
         }
+        return resultDTOS;
     }
     public Boolean checkRightSigle(Long answerId){
         if(answerId != null){
