@@ -12,5 +12,5 @@ public class AnswerDTO {
     private Long id;
     private String answer_content;
     private Long question_id;
-
+    private Boolean isright;
 }
