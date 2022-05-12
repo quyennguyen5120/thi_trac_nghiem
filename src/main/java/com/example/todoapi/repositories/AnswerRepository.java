@@ -13,12 +13,10 @@ import java.util.List;
 @Repository
 public interface AnswerRepository extends JpaRepository<AnswerEntity, Long> {
 
-    @Query("select new com.example.todoapi.dtos.AnswerDTO(a) from AnswerEntity a where a.question.id = ?1 and a.isRight = true")
-    public List<AnswerDTO> getMultiAnswerRightByQuestion(Long id);
+    @Query("select new com.example.todoapi.dtos.AnswerDTO(a) from AnswerEntity a where a.question.id = ?1 and a.id in ?2 and a.isRight = true")
+    public List<AnswerDTO> getMultiAnswerRightByQuestion(Long qusetionId, List<Long> lstAnswerId);
 
     @Query("select new com.example.todoapi.dtos.AnswerDTO(a) from AnswerEntity a where a.question.id = ?1 and a.isRight = true")
     public AnswerDTO getSingleAnswerRightByQuestion(Long id);
 
-    @Query("select count(a) from AnswerEntity a where a.id in ?1 and a.isRight = true")
-    public Integer checkRighitMultiAnswer(List<Long> lstLongs);
 }

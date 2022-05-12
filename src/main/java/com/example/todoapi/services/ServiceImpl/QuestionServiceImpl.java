@@ -39,18 +39,19 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public void insertNew(QuestionDto questionDto) {
         Set<AnswerEntity> answerEntitySet = new HashSet<>();
-        if (questionDto.getAnswerDTOS()!=null){
-        questionDto.getAnswerDTOS().forEach(answerDTO -> {
-            AnswerEntity answerEntity = answerRepository.getById(answerDTO.getId());
-            answerEntitySet.add(answerEntity);
-        });
+
+        if  (questionDto.getAnswerDTOS() != null){
+            questionDto.getAnswerDTOS().forEach(answerDTO -> {
+                AnswerEntity answerEntity = answerRepository.getById(answerDTO.getId());
+                answerEntitySet.add(answerEntity);
+            });
         }
-        if(questionDto.getExamDto()!=null){
+
         QuestionEntity questionEntity = QuestionEntity.builder()
                 .question_content(questionDto.getQuestion_content())
                 .question_type(questionDto.getQuestion_type())
                 .answerEntitySet(answerEntitySet)
-                .exam(examRepository.getById(questionDto.getExamDto().getId()))
+                .exam(questionDto.getExamDto() != null ? examRepository.getById(questionDto.getExamDto().getId()) : null)
                 .mark(questionDto.getMark())
                 .video_url(questionDto.getVideo_url())
                 .image_url(questionDto.getImage_url())
@@ -74,16 +75,18 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public void updateOld(QuestionDto questionDto) {
         Set<AnswerEntity> answerEntitySet = new HashSet<>();
-        questionDto.getAnswerDTOS().forEach(answerDTO -> {
-            AnswerEntity answerEntity = answerRepository.getById(answerDTO.getId());
-            answerEntitySet.add(answerEntity);
-        });
+        if  (questionDto.getAnswerDTOS() != null){
+            questionDto.getAnswerDTOS().forEach(answerDTO -> {
+                AnswerEntity answerEntity = answerRepository.getById(answerDTO.getId());
+                answerEntitySet.add(answerEntity);
+            });
+        }
         QuestionEntity questionEntity = QuestionEntity.builder()
                 .id(questionDto.getId())
                 .question_content(questionDto.getQuestion_content())
                 .question_type(questionDto.getQuestion_type())
                 .answerEntitySet(answerEntitySet)
-                .exam(examRepository.getById(questionDto.getExamDto().getId()))
+                .exam(questionDto.getExamDto() != null ? examRepository.getById(questionDto.getExamDto().getId()) : null)
                 .mark(questionDto.getMark())
                 .video_url(questionDto.getVideo_url())
                 .image_url(questionDto.getImage_url())
