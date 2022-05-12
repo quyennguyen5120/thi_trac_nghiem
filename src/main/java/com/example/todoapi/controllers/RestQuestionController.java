@@ -1,6 +1,9 @@
 package com.example.todoapi.controllers;
 
 import com.example.todoapi.dtos.QuestionDto;
+import com.example.todoapi.entities.QuestionEntity;
+import com.example.todoapi.repositories.QuestionRepository;
+import com.example.todoapi.services.AnswerService;
 import com.example.todoapi.services.QuestionService;
 import com.example.todoapi.services.ServiceImpl.QuestionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 public class RestQuestionController {
     @Autowired
     QuestionService questionService;
+    @Autowired
+    AnswerService answerService;
 
     @PostMapping("/add")
     public ResponseEntity<?> addQuestion(@RequestBody QuestionDto questionDto){
