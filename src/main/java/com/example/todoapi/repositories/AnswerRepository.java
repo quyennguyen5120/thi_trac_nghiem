@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 @Repository
 public interface AnswerRepository extends JpaRepository<AnswerEntity, Long> {
 
