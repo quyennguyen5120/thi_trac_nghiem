@@ -1,7 +1,6 @@
 package com.example.todoapi.entities;
 
 import lombok.*;
-import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -17,14 +16,21 @@ public class QuestionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "question")
-    private String question;
+    @Column(name = "question_content")
+    private String question_content;
     @Column(name = "question_type")
     private int question_type;
     @OneToMany(targetEntity = AnswerEntity.class, mappedBy = "question")
     private Set<AnswerEntity> answerEntitySet;
-    @ManyToOne(targetEntity = TestEntity.class)
-    @JoinColumn(name = "test_id")
-    private TestEntity testEntity;
-
+    @ManyToOne(targetEntity = ExamEntity.class)
+    @JoinColumn(name = "exam_id")
+    private ExamEntity exam;
+    @Column(name = "mark")
+    private Double mark;
+    @Column(name = "video_url")
+    private String video_url;
+    @Column(name = "image_url")
+    private String image_url;
+    @Column(name = "audio_url")
+    private String audio_url;
 }
