@@ -23,6 +23,8 @@ public class QuestionDto {
     private String question_content;
     private int question_type;
     private List<AnswerDTO> answerDTOS;
+    private List<Long> listIdAnswer;
+    private Long idSingleQuestion;
     private ExamDTO examDto;
     private Double mark;
     private String video_url;

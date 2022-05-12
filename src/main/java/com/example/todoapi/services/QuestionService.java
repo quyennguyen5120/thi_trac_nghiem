@@ -1,4 +1,9 @@
 package com.example.todoapi.services;
 
-public interface QuestionService {
+import com.example.todoapi.dtos.QuestionDto;
+
+import java.util.List;
+
+public interface QuestionService extends BaseService<QuestionDto>{
+    List<QuestionDto> getQuestionByExamId(Long examId);
 }
