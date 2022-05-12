@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -20,5 +21,10 @@ public class QuestionEntity {
     private String question;
     @Column(name = "question_type")
     private int question_type;
+    @OneToMany(targetEntity = AnswerEntity.class, mappedBy = "question")
+    private Set<AnswerEntity> answerEntitySet;
+    @ManyToOne(targetEntity = TestEntity.class)
+    @JoinColumn(name = "test_id")
+    private TestEntity testEntity;
 
 }
