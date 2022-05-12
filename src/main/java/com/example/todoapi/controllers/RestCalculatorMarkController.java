@@ -14,7 +14,6 @@ import java.util.List;
 @RequestMapping("/api/calculator")
 public class RestCalculatorMarkController {
 
-
     @Autowired
     CalculatorMarkService calculatorMarkService;
 
