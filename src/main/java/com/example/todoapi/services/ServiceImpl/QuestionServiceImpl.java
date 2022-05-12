@@ -81,4 +81,10 @@ public class QuestionServiceImpl implements QuestionService {
     public void deleteOld(Long id) {
         questionRepository.deleteById(id);
     }
+
+    @Override
+    public List<QuestionDto> getQuestionByExamId(Long examId) {
+        return questionRepository.findAllByExamId(examId).stream()
+                .map(questionEntity -> new QuestionDto(questionEntity)).collect(Collectors.toList());
+    }
 }

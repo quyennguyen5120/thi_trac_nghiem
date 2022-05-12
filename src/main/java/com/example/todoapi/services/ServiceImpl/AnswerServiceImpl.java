@@ -30,9 +30,9 @@ public class AnswerServiceImpl implements AnswerService {
         for (AnswerEntity a:answerEntities
              ) {
             if (a.getQuestion()!=null){
-                answerDTOS.add(AnswerDTO.builder().question_id(a.getQuestion().getId()).answer_content(a.getAnswer_content()).id(a.getId()).build());
+                answerDTOS.add(AnswerDTO.builder().isright(a.getIsRight()).question_id(a.getQuestion().getId()).answer_content(a.getAnswer_content()).id(a.getId()).build());
             }else {
-                answerDTOS.add(AnswerDTO.builder().answer_content(a.getAnswer_content()).id(a.getId()).build());
+                answerDTOS.add(AnswerDTO.builder().isright(a.getIsRight()).answer_content(a.getAnswer_content()).id(a.getId()).build());
             }
 
         }
@@ -43,28 +43,28 @@ public class AnswerServiceImpl implements AnswerService {
     public AnswerDTO getByID(Long id) {
         AnswerEntity answer = answerRepository.findById(id).get();
         if(answer.getQuestion()== null){
-            return AnswerDTO.builder().answer_content(answer.getAnswer_content()).id(answer.getId()).build();
+            return AnswerDTO.builder().isright(answer.getIsRight()).answer_content(answer.getAnswer_content()).id(answer.getId()).build();
 
         }else {
-            return AnswerDTO.builder().answer_content(answer.getAnswer_content()).id(answer.getId()).question_id(answer.getQuestion().getId()).build();
+            return AnswerDTO.builder().isright(answer.getIsRight()).answer_content(answer.getAnswer_content()).id(answer.getId()).question_id(answer.getQuestion().getId()).build();
         }
     }
 
     @Override
     public void insertNew(AnswerDTO answerDTO) {
         if(answerDTO.getQuestion_id()== null){
-            answerRepository.save(AnswerEntity.builder().answer_content(answerDTO.getAnswer_content()).build());
+            answerRepository.save(AnswerEntity.builder().isRight(answerDTO.getIsright()).answer_content(answerDTO.getAnswer_content()).build());
         }else {
-            answerRepository.save(AnswerEntity.builder().answer_content(answerDTO.getAnswer_content()).question(questionRepository.findById(answerDTO.getQuestion_id()).get()).build());
+            answerRepository.save(AnswerEntity.builder().isRight(answerDTO.getIsright()).answer_content(answerDTO.getAnswer_content()).question(questionRepository.findById(answerDTO.getQuestion_id()).get()).build());
         }
     }
 
     @Override
     public void updateOld(AnswerDTO answerDTO) {
         if(answerDTO.getQuestion_id()== null){
-            answerRepository.save(AnswerEntity.builder().answer_content(answerDTO.getAnswer_content()).id(answerDTO.getId()).build());
+            answerRepository.save(AnswerEntity.builder().isRight(answerDTO.getIsright()).answer_content(answerDTO.getAnswer_content()).id(answerDTO.getId()).build());
         }else {
-            answerRepository.save(AnswerEntity.builder().answer_content(answerDTO.getAnswer_content()).id(answerDTO.getId()).question(questionRepository.findById(answerDTO.getQuestion_id()).get()).build());
+            answerRepository.save(AnswerEntity.builder().isRight(answerDTO.getIsright()).answer_content(answerDTO.getAnswer_content()).id(answerDTO.getId()).question(questionRepository.findById(answerDTO.getQuestion_id()).get()).build());
         }
     }
     @Override

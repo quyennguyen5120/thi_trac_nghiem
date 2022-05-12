@@ -23,6 +23,8 @@ public class QuestionDto {
     private String question_content;
     private int question_type;
     private List<AnswerDTO> answerDTOS;
+    private List<Long> listIdAnswer;
+    private Long idSingleQuestion;
     private ExamDTO examDto;
     private Double mark;
     private String video_url;
@@ -61,6 +63,7 @@ public class QuestionDto {
                 examDTO.setId(question.getExam().getId());
                 examDTO.setExam_name(question.getExam().getExam_name());
                 examDTO.setTime_limit(question.getExam().getTime_limit());
+                this.examDto = examDTO;
             }
 
         }

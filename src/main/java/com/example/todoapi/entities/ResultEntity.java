@@ -15,7 +15,7 @@ public class ResultEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne(targetEntity = QuestionEntity.class)
+    @OneToOne
     @JoinColumn(name = "question_id")
     private QuestionEntity question;
     @Column(name = "mark")
