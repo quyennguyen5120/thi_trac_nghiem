@@ -1,6 +1,7 @@
 package com.example.todoapi.controllers;
 
 import com.example.todoapi.dtos.QuestionDto;
+import com.example.todoapi.services.QuestionService;
 import com.example.todoapi.services.ServiceImpl.QuestionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class RestQuestionController {
     @Autowired
-    QuestionServiceImpl questionServiceImpl;
+    QuestionService questionService;
 
     @PostMapping("/add")
     public ResponseEntity<?> addQuestion(@RequestBody QuestionDto questionDto){
         if (questionDto != null){
-            questionServiceImpl.insertNew(questionDto);
+            questionService.insertNew(questionDto);
             return ResponseEntity.ok(questionDto);
         }
         return ResponseEntity.badRequest().body(null);
@@ -23,6 +24,6 @@ public class RestQuestionController {
 
     @GetMapping("/getQuestionByExamId/{examId}")
     public ResponseEntity<?> getQuestionByExam(@PathVariable("examId")Long examId){
-        return ResponseEntity.ok(questionServiceImpl.getQuestionByExamId(examId));
+        return ResponseEntity.ok(questionService.getQuestionByExamId(examId));
     }
 }

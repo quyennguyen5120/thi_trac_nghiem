@@ -39,12 +39,14 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public void insertNew(QuestionDto questionDto) {
         Set<AnswerEntity> answerEntitySet = new HashSet<>();
+
         if  (questionDto.getAnswerDTOS() != null){
             questionDto.getAnswerDTOS().forEach(answerDTO -> {
                 AnswerEntity answerEntity = answerRepository.getById(answerDTO.getId());
                 answerEntitySet.add(answerEntity);
             });
         }
+
         QuestionEntity questionEntity = QuestionEntity.builder()
                 .question_content(questionDto.getQuestion_content())
                 .question_type(questionDto.getQuestion_type())
@@ -56,6 +58,18 @@ public class QuestionServiceImpl implements QuestionService {
                 .audio_url(questionDto.getAudio_url())
                 .build();
         questionRepository.save(questionEntity);
+        }else {
+            QuestionEntity questionEntity = QuestionEntity.builder()
+                    .question_content(questionDto.getQuestion_content())
+                    .question_type(questionDto.getQuestion_type())
+                    .answerEntitySet(answerEntitySet)
+                    .mark(questionDto.getMark())
+                    .video_url(questionDto.getVideo_url())
+                    .image_url(questionDto.getImage_url())
+                    .audio_url(questionDto.getAudio_url())
+                    .build();
+            questionRepository.save(questionEntity);
+        }
     }
 
     @Override
