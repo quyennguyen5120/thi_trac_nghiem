@@ -4,6 +4,8 @@ import com.example.todoapi.dtos.JwtResponse;
 import com.example.todoapi.dtos.LoginRequest;
 import com.example.todoapi.dtos.SignupRequest;
 import com.example.todoapi.entities.RefreshToken;
+import com.example.todoapi.entities.RoleEntity;
+import com.example.todoapi.entities.UserEntity;
 import com.example.todoapi.jwt.JwtUtils;
 import com.example.todoapi.payload.request.TokenRefreshRequest;
 import com.example.todoapi.payload.response.TokenRefreshResponse;
