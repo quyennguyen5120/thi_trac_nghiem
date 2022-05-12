@@ -1,12 +1,15 @@
 package com.example.todoapi.controllers;
 
 import com.example.todoapi.dtos.AnswerDTO;
+import com.example.todoapi.dtos.QuestionDto;
 import com.example.todoapi.dtos.ResultDTO;
 import com.example.todoapi.services.AnswerService;
 import com.example.todoapi.services.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/api/result")
 @RestController
@@ -37,12 +40,17 @@ public class RestResultController {
             resultDTO1.setMark(resultDTO.getMark());
         }
         resultService.updateOld(resultDTO1);
-        return ResponseEntity.ok(resultDTO1.toString() +"editted");
+        return ResponseEntity.ok(resultDTO1);
     }
     @DeleteMapping(produces = "application/json",value = "/delete/{id}")
     public ResponseEntity<?> delAnswer(@PathVariable("id") Long id){
         String response = resultService.getByID(id).toString();
         resultService.deleteOld(id);
-        return ResponseEntity.ok( response + "deleted");
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/getResultByExamAndUser/{userId}/{examId}")
+    public ResponseEntity<?> getResultByExam(@PathVariable("userId") Long userId,@PathVariable("examId") Long id){
+            return ResponseEntity.ok(resultService.getQuestionDtos(userId, id));
     }
 }

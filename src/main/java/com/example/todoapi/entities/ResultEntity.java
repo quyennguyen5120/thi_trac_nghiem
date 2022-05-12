@@ -18,6 +18,11 @@ public class ResultEntity extends BaseEntity{
     @OneToOne
     @JoinColumn(name = "question_id")
     private QuestionEntity question;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
+
     @Column(name = "mark")
     private Double mark;
 

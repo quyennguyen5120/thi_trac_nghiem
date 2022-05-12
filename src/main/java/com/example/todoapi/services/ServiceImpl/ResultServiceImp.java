@@ -1,5 +1,6 @@
 package com.example.todoapi.services.ServiceImpl;
 
+import com.example.todoapi.dtos.QuestionDto;
 import com.example.todoapi.dtos.ResultDTO;
 import com.example.todoapi.entities.ResultEntity;
 import com.example.todoapi.repositories.QuestionRepository;
@@ -72,5 +73,10 @@ public class ResultServiceImp implements ResultService {
             resultRepository.delete(resultRepository.findById(id).get());
         else
             return;
+    }
+
+    @Override
+    public List<ResultDTO> getQuestionDtos(Long userId, Long id) {
+        return resultRepository.getAllByUserAndExam(userId, id);
     }
 }
