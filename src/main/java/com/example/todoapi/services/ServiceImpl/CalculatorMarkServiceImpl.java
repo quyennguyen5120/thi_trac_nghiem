@@ -36,6 +36,7 @@ public class CalculatorMarkServiceImpl implements CalculatorMarkService {
     @Autowired
     ResultRepository resultRepository;
 
+    @Override
     public void calculartorMark(CalculatorDto calculatorDto){
         ResultEntity resultEntity = null;
         if(calculatorDto.getExamId() != null){
@@ -55,10 +56,23 @@ public class CalculatorMarkServiceImpl implements CalculatorMarkService {
                            resultEntity.setQuestion(question1);
                        }
                         resultRepository.save(resultEntity);
-                        //// lưu lai result
                     }
                    else if(question.getQuestion_type() == Const.TypeAnsewr.MUTILIP_ANWSER.getValue()){
-                        Boolean checkRighit = this.checkRightMulti(question.getListIdAnswer());
+                        List<AnswerDTO> answerDTOS = answerRepository.getMultiAnswerRightByQuestion(question.getId(), question.getListIdAnswer());
+                        Boolean isRight = true;
+                        for(AnswerDTO answerDTO : answerDTOS){
+                            if(answerDTO.getIsright() == false || answerDTO.getIsright() == null){
+                                isRight = false;
+                                break;
+                            }
+                        }
+                        resultEntity.setQuestion(question1);
+                        if(isRight == true){
+                            resultEntity.setMark(question1.getMark());
+                        }
+                        else
+                            resultEntity.setMark(0D);
+                        resultRepository.save(resultEntity);
                     }
                 }
             }
@@ -73,10 +87,5 @@ public class CalculatorMarkServiceImpl implements CalculatorMarkService {
         }
         return false;
     }
-    public Boolean checkRightMulti(List<Long> answerId){
-        if(answerId != null && answerId.size() > 0) {
 
-        }
-        return false;
-    }
 }
