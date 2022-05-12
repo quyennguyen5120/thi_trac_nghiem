@@ -5,14 +5,8 @@ import com.example.todoapi.dtos.AnswerDTO;
 import com.example.todoapi.dtos.CalculatorDto;
 import com.example.todoapi.dtos.QuestionDto;
 import com.example.todoapi.dtos.ResultDTO;
-import com.example.todoapi.entities.AnswerEntity;
-import com.example.todoapi.entities.ExamEntity;
-import com.example.todoapi.entities.QuestionEntity;
-import com.example.todoapi.entities.ResultEntity;
-import com.example.todoapi.repositories.AnswerRepository;
-import com.example.todoapi.repositories.ExamRepository;
-import com.example.todoapi.repositories.QuestionRepository;
-import com.example.todoapi.repositories.ResultRepository;
+import com.example.todoapi.entities.*;
+import com.example.todoapi.repositories.*;
 import com.example.todoapi.services.CalculatorMarkService;
 import com.example.todoapi.services.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,14 +31,17 @@ public class CalculatorMarkServiceImpl implements CalculatorMarkService {
     AnswerRepository answerRepository;
     @Autowired
     ResultRepository resultRepository;
+    @Autowired
+    UserRepository  userRepository;
 
     @Override
     public List<ResultDTO> calculartorMark(CalculatorDto calculatorDto){
         ResultEntity resultEntity = null;
         List<ResultDTO> resultDTOS = new ArrayList<>();
         ResultDTO resultDTO = null;
-        if(calculatorDto.getExamId() != null){
+        if(calculatorDto.getExamId() != null && calculatorDto.getUserId() != null){
             ExamEntity examEntity = examRepository.getById(calculatorDto.getExamId());
+            UserEntity userEntity = userRepository.getById(calculatorDto.getUserId());
             if(examEntity != null){
                 for(QuestionDto question : calculatorDto.getLstQuestion()){
                     resultEntity = new ResultEntity();
@@ -59,6 +56,7 @@ public class CalculatorMarkServiceImpl implements CalculatorMarkService {
                            resultEntity.setMark(0D);
                            resultEntity.setQuestion(question1);
                        }
+                       resultEntity.setUserEntity(userEntity);
                         resultEntity = resultRepository.save(resultEntity);
                         resultDTO = new ResultDTO(resultEntity);
                         resultDTOS.add(resultDTO);
@@ -78,6 +76,7 @@ public class CalculatorMarkServiceImpl implements CalculatorMarkService {
                         }
                         else
                             resultEntity.setMark(0D);
+                        resultEntity.setUserEntity(userEntity);
                         resultEntity = resultRepository.save(resultEntity);
                         resultDTO = new ResultDTO(resultEntity);
                         resultDTOS.add(resultDTO);
