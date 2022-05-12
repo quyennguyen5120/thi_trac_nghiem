@@ -58,4 +58,9 @@ public class RestQuestionController {
     public ResponseEntity<?> getQuestionByExam(@PathVariable("examId")Long examId){
         return ResponseEntity.ok(questionService.getQuestionByExamId(examId));
     }
+
+    @GetMapping("/getById/{questionId}")
+    public ResponseEntity<?> getQuestionById(@PathVariable("questionId")Long questionId){
+        return ResponseEntity.ok(questionService.getByID(questionId));
+    }
 }
