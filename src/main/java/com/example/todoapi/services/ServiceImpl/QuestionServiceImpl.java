@@ -95,6 +95,19 @@ public class QuestionServiceImpl implements QuestionService {
                 .audio_url(questionDto.getAudio_url())
                 .build();
         questionRepository.save(questionEntity);
+//        if (questionDto.getAnswerDTOS()!=null){
+//            questionDto.getAnswerDTOS().forEach(answerDTO -> {
+//
+//                if(answerService.getAll().contains(answerDTO)){
+//                    answerDTO.setQuestion_id(questionDto.getId());
+//                    answerService.updateOld(answerDTO);
+//                }
+//                else{
+//                    answerDTO.setQuestion_id(questionDto.getId());
+//                    answerService.insertNew(answerDTO);
+//                }
+//            });
+//        }
     }
 
     @Override
