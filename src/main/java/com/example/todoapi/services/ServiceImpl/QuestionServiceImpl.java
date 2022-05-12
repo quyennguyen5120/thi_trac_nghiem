@@ -54,6 +54,7 @@ public class QuestionServiceImpl implements QuestionService {
                 .image_url(questionDto.getImage_url())
                 .audio_url(questionDto.getAudio_url())
                 .build();
+
         questionEntity = questionRepository.save(questionEntity);
         questionDto.setId(questionEntity.getId());
         if (questionDto.getAnswerDTOS()!=null){
