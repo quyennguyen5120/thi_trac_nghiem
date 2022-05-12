@@ -1,4 +1,6 @@
 package com.example.todoapi.services;
 
-public interface QuestionService {
+import com.example.todoapi.dtos.QuestionDto;
+
+public interface QuestionService extends BaseService<QuestionDto>{
 }
