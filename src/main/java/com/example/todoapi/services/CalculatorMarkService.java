@@ -1,5 +1,7 @@
 package com.example.todoapi.services;
 
-public interface CalculatorMarkService {
+import com.example.todoapi.dtos.CalculatorDto;
 
+public interface CalculatorMarkService {
+    public void calculartorMark(CalculatorDto calculatorDto);
 }
