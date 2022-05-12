@@ -1,16 +1,19 @@
 package com.example.todoapi.services.ServiceImpl;
 
+import com.example.todoapi.dtos.ExamDTO;
 import com.example.todoapi.dtos.QuestionDto;
 import com.example.todoapi.entities.AnswerEntity;
 import com.example.todoapi.entities.QuestionEntity;
 import com.example.todoapi.repositories.AnswerRepository;
 import com.example.todoapi.repositories.ExamRepository;
 import com.example.todoapi.repositories.QuestionRepository;
+import com.example.todoapi.services.AnswerService;
 import com.example.todoapi.services.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,6 +26,8 @@ public class QuestionServiceImpl implements QuestionService {
     QuestionRepository questionRepository;
     @Autowired
     AnswerRepository answerRepository;
+    @Autowired
+    AnswerService answerService;
     @Autowired
     ExamRepository examRepository;
 
@@ -39,14 +44,6 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public void insertNew(QuestionDto questionDto) {
         Set<AnswerEntity> answerEntitySet = new HashSet<>();
-
-        if  (questionDto.getAnswerDTOS() != null){
-            questionDto.getAnswerDTOS().forEach(answerDTO -> {
-                AnswerEntity answerEntity = answerRepository.getById(answerDTO.getId());
-                answerEntitySet.add(answerEntity);
-            });
-        }
-
         QuestionEntity questionEntity = QuestionEntity.builder()
                 .question_content(questionDto.getQuestion_content())
                 .question_type(questionDto.getQuestion_type())
@@ -57,7 +54,24 @@ public class QuestionServiceImpl implements QuestionService {
                 .image_url(questionDto.getImage_url())
                 .audio_url(questionDto.getAudio_url())
                 .build();
-        questionRepository.save(questionEntity);
+
+        questionEntity = questionRepository.save(questionEntity);
+        questionDto.setId(questionEntity.getId());
+        if (questionDto.getAnswerDTOS()!=null){
+            questionDto.getAnswerDTOS().forEach(answerDTO -> {
+//            AnswerEntity answerEntity = answerRepository.getById(answerDTO.getId());
+//            answerEntitySet.add(answerEntity);
+
+                if(answerService.getAll().contains(answerDTO)){
+                    answerDTO.setQuestion_id(questionDto.getId());
+                    answerService.updateOld(answerDTO);
+                }
+                else{
+                    answerDTO.setQuestion_id(questionDto.getId());
+                    answerService.insertNew(answerDTO);
+                }
+            });
+        }
     }
 
     @Override
