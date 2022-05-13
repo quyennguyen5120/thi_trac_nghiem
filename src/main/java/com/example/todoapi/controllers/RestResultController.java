@@ -5,10 +5,17 @@ import com.example.todoapi.dtos.QuestionDto;
 import com.example.todoapi.dtos.ResultDTO;
 import com.example.todoapi.services.AnswerService;
 import com.example.todoapi.services.ResultService;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @RequestMapping("/api/result")
@@ -52,5 +59,13 @@ public class RestResultController {
     @GetMapping("/getResultByExamAndUser/{userId}/{examId}")
     public ResponseEntity<?> getResultByExam(@PathVariable("userId") Long userId,@PathVariable("examId") Long id){
             return ResponseEntity.ok(resultService.getQuestionDtos(userId, id));
+    }
+
+    @RequestMapping(value = "/image", method = RequestMethod.GET,
+            produces = MediaType.IMAGE_JPEG_VALUE)
+    public void getImage(HttpServletResponse response) throws IOException {
+        var imgFile = new ClassPathResource("images/abc.jpg");
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        StreamUtils.copy(imgFile.getInputStream(), response.getOutputStream());
     }
 }
