@@ -18,7 +18,7 @@ public class ExamEntity extends BaseEntity{
     private Long id;
     @Column(name = "exam_name")
     private String exam_name;
-    @OneToMany(targetEntity = QuestionEntity.class,mappedBy = "exam")
+    @OneToMany(targetEntity = QuestionEntity.class,mappedBy = "exam", cascade = CascadeType.ALL)
     private Set<QuestionEntity> questionEntities;
     @Column(name = "time_limit")
     private Long time_limit;

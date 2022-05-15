@@ -19,7 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuestionDto {
-    private Long id;
+    private Long question_id;
     private String question_content;
     private int question_type;
     private List<AnswerDTO> answerDTOS;
@@ -33,7 +33,7 @@ public class QuestionDto {
 
     public QuestionDto(QuestionEntity question){
         if(question!= null){
-            this.id = question.getId();
+            this.question_id = question.getId();
             if(question.getQuestion_content() != null)
                 this.question_content = question.getQuestion_content();
             if(question.getQuestion_type() != -1)
