@@ -1,10 +1,7 @@
 package com.example.todoapi.services.ServiceImpl;
 
 import com.example.todoapi.Utils.Const;
-import com.example.todoapi.dtos.AnswerDTO;
-import com.example.todoapi.dtos.CalculatorDto;
-import com.example.todoapi.dtos.QuestionDto;
-import com.example.todoapi.dtos.ResultDTO;
+import com.example.todoapi.dtos.*;
 import com.example.todoapi.entities.*;
 import com.example.todoapi.repositories.*;
 import com.example.todoapi.services.CalculatorMarkService;
@@ -35,7 +32,7 @@ public class CalculatorMarkServiceImpl implements CalculatorMarkService {
     UserRepository  userRepository;
 
     @Override
-    public List<ResultDTO> calculartorMark(CalculatorDto calculatorDto){
+    public List<ResultDTO> calculartorMark(Calculator_newDto calculatorDto){
         ResultEntity resultEntity = null;
         List<ResultDTO> resultDTOS = new ArrayList<>();
         ResultDTO resultDTO = null;
@@ -43,9 +40,9 @@ public class CalculatorMarkServiceImpl implements CalculatorMarkService {
             ExamEntity examEntity = examRepository.getById(calculatorDto.getExamId());
             UserEntity userEntity = userRepository.getById(calculatorDto.getUserId());
             if(examEntity != null){
-                for(QuestionDto question : calculatorDto.getLstQuestion()){
+                for(Question_newDto question : calculatorDto.getLstQuestion()){
                     resultEntity = new ResultEntity();
-                    QuestionEntity question1 = questionRepository.getById(question.getId());
+                    QuestionEntity question1 = questionRepository.getById(question.getQuestion_id());
                     if(question.getQuestion_type() == Const.TypeAnsewr.SINGLE_ANWSER.getValue()){
                        Boolean checkRighit = this.checkRightSigle(question.getIdSingleQuestion());
                        if(checkRighit == true){
@@ -62,7 +59,7 @@ public class CalculatorMarkServiceImpl implements CalculatorMarkService {
                         resultDTOS.add(resultDTO);
                     }
                    else if(question.getQuestion_type() == Const.TypeAnsewr.MUTILIP_ANWSER.getValue()){
-                        List<AnswerDTO> answerDTOS = answerRepository.getMultiAnswerRightByQuestion(question.getId(), question.getListIdAnswer());
+                        List<AnswerDTO> answerDTOS = answerRepository.getMultiAnswerRightByQuestion(question.getQuestion_id(), question.getListIdAnswer());
                         Boolean isRight = true;
                         for(AnswerDTO answerDTO : answerDTOS){
                             if(answerDTO.getIsright() == false || answerDTO.getIsright() == null){

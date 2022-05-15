@@ -2,6 +2,7 @@ package com.example.todoapi.controllers;
 
 
 import com.example.todoapi.dtos.CalculatorDto;
+import com.example.todoapi.dtos.Calculator_newDto;
 import com.example.todoapi.dtos.ResultDTO;
 import com.example.todoapi.services.CalculatorMarkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class RestCalculatorMarkController {
     CalculatorMarkService calculatorMarkService;
 
     @PostMapping("/")
-    public ResponseEntity<?> calculator(@RequestBody CalculatorDto calculatorDto){
+    public ResponseEntity<?> calculator(@RequestBody Calculator_newDto calculatorDto){
         return ResponseEntity.ok(calculatorMarkService.calculartorMark(calculatorDto));
     }
 }
