@@ -13,4 +13,7 @@ import java.util.List;
 public interface ResultRepository extends JpaRepository<ResultEntity,Long> {
     @Query("select new com.example.todoapi.dtos.ResultDTO(r) from ResultEntity r where r.userEntity.id=?1 and r.question.exam.id = ?2")
     public List<ResultDTO> getAllByUserAndExam(Long userId, Long examId);
+
+    @Query("select r from ResultEntity r where r.userEntity.id=?1 and r.question.exam.id = ?2")
+    public List<ResultEntity> getAllByUserAndExamZ(Long userId, Long examId);
 }
