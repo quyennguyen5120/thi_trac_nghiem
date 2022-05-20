@@ -23,6 +23,8 @@ public class UserEntity {
     private String username;
     private String email;
     private String password;
+    private String fullname;
+    private Integer age;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(	name = "user_roles",
