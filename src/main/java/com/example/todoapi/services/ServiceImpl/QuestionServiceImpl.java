@@ -1,5 +1,6 @@
 package com.example.todoapi.services.ServiceImpl;
 
+import com.example.todoapi.dtos.AnswerDTO;
 import com.example.todoapi.dtos.ExamDTO;
 import com.example.todoapi.dtos.QuestionDto;
 import com.example.todoapi.entities.AnswerEntity;
@@ -58,8 +59,8 @@ public class QuestionServiceImpl implements QuestionService {
         questionEntity = questionRepository.save(questionEntity);
         questionDto.setId(questionEntity.getId());
         if (questionDto.getAnswerDTOS()!=null){
-            questionDto.getAnswerDTOS().forEach(answerDTO -> {
-            AnswerEntity answerEntity = null;
+            for(AnswerDTO answerDTO : questionDto.getAnswerDTOS()){
+                AnswerEntity answerEntity = null;
                 if(answerDTO.getId() != null){
                     answerEntity = answerRepository.getById(answerDTO.getId());
                 }
@@ -68,8 +69,10 @@ public class QuestionServiceImpl implements QuestionService {
                 }
                 answerEntity.setAnswer_content(answerDTO.getAnswer_content());
                 answerEntity.setIsRight(answerDTO.getIsright());
+                answerEntity.setQuestion(questionEntity);
+                answerRepository.save(answerEntity);
+            }
 
-            });
         }
     }
 
