@@ -20,9 +20,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -40,6 +42,8 @@ public class HomeController {
     UserRepository userRepository;
     @Autowired
     RoleRepository roleRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
@@ -71,16 +75,26 @@ public class HomeController {
                 .orElseThrow(null);
     }
 
-//    @GetMapping("/add")
-//    public String addUser(){
-//        RoleEntity roleUser = roleRepository.findByName("ROLE_USER");
-//        UserEntity user = new UserEntity();
-//        user.setUsername("user");
-//        user.setPassword(passwordEncoder.encode("123"));
-//        user.setRoles(Set.of(roleUser));
-//        userRepository.save(user);
-//        return "";
-//    }
+    @GetMapping("/adduser")
+    public String addUser(){
+        RoleEntity roleUser = roleRepository.findByName("ROLE_USER");
+        UserEntity user = new UserEntity();
+        user.setUsername("user");
+        user.setPassword(passwordEncoder.encode("123"));
+        user.setRoles(Set.of(roleUser));
+        userRepository.save(user);
+        return "";
+    }
+    @GetMapping("/addadmin")
+    public String addadmin(){
+        RoleEntity roleUser = roleRepository.findByName("ROLE_ADMIN");
+        UserEntity user = new UserEntity();
+        user.setUsername("admin");
+        user.setPassword(passwordEncoder.encode("123"));
+        user.setRoles(Set.of(roleUser));
+        userRepository.save(user);
+        return "";
+    }
 
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@RequestBody SignupRequest signupRequest){
