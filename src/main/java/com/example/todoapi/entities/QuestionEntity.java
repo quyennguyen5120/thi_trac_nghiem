@@ -22,7 +22,7 @@ public class QuestionEntity extends BaseEntity{
     private int question_type;
     @OneToMany(targetEntity = AnswerEntity.class, mappedBy = "question", cascade = CascadeType.ALL)
     private Set<AnswerEntity> answerEntitySet;
-    @ManyToOne(targetEntity = ExamEntity.class)
+    @ManyToOne(targetEntity = ExamEntity.class, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "exam_id")
     private ExamEntity exam;
     @Column(name = "mark")
