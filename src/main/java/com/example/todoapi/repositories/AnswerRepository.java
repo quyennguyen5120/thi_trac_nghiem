@@ -19,4 +19,7 @@ public interface AnswerRepository extends JpaRepository<AnswerEntity, Long> {
     @Query("select new com.example.todoapi.dtos.AnswerDTO(a) from AnswerEntity a where a.question.id = ?1 and a.isRight = true")
     public AnswerDTO getSingleAnswerRightByQuestion(Long id);
 
+    @Query("select a from AnswerEntity a where a.question.id = ?1")
+    public List<AnswerEntity> getByQuestionId(Long id);
+
 }

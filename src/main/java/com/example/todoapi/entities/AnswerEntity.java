@@ -19,7 +19,7 @@ public class AnswerEntity extends BaseEntity{
     private String answer_content;
     @Column(name = "isRight")
     private Boolean isRight;
-    @ManyToOne(targetEntity = QuestionEntity.class, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = QuestionEntity.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "question_id")
     private QuestionEntity question;
 }

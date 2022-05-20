@@ -45,20 +45,38 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public void insertNew(QuestionDto questionDto) {
         Set<AnswerEntity> answerEntitySet = new HashSet<>();
-        QuestionEntity questionEntity = QuestionEntity.builder()
-                .question_content(questionDto.getQuestion_content())
-                .question_type(questionDto.getQuestion_type())
-                .answerEntitySet(answerEntitySet)
-                .exam(questionDto.getExamDto() != null ? examRepository.getById(questionDto.getExamDto().getId()) : null)
-                .mark(questionDto.getMark())
-                .video_url(questionDto.getVideo_url())
-                .image_url(questionDto.getImage_url())
-                .audio_url(questionDto.getAudio_url())
-                .build();
-
+        QuestionEntity questionEntity = null;
+        if(questionDto.getId() != null){
+            questionEntity = questionRepository.getById(questionDto.getId());
+        }
+        if(questionEntity == null){
+            questionEntity = new QuestionEntity();
+        }
+        questionEntity.setQuestion_type(questionDto.getQuestion_type());
+        questionEntity.setQuestion_content(questionDto.getQuestion_content());
+        questionEntity.setExam(questionDto.getExamDto() != null ? examRepository.getById(questionDto.getExamDto().getId()) : null);
+        questionEntity.setMark(questionDto.getMark());
+        questionEntity.setVideo_url(questionDto.getVideo_url());
+        questionEntity.setAudio_url(questionDto.getAudio_url());
+        questionEntity.setImage_url(questionDto.getImage_url());
+//         questionEntity = QuestionEntity.builder()
+//                .question_content(questionDto.getQuestion_content())
+//                .question_type(questionDto.getQuestion_type())
+//                .answerEntitySet(answerEntitySet)
+//                .exam(questionDto.getExamDto() != null ? examRepository.getById(questionDto.getExamDto().getId()) : null)
+//                .mark(questionDto.getMark())
+//                .video_url(questionDto.getVideo_url())
+//                .image_url(questionDto.getImage_url())
+//                .audio_url(questionDto.getAudio_url())
+//                .build();
+        questionEntity.setAnswerEntitySet(null);
         questionEntity = questionRepository.save(questionEntity);
+        List<AnswerEntity> answerEntities = new ArrayList<>();
+
         questionDto.setId(questionEntity.getId());
         if (questionDto.getAnswerDTOS()!=null){
+            List<AnswerEntity> answerEntities1 = answerRepository.getByQuestionId(questionDto.getId());
+            answerRepository.deleteAll(answerEntities1);
             for(AnswerDTO answerDTO : questionDto.getAnswerDTOS()){
                 AnswerEntity answerEntity = null;
                 if(answerDTO.getId() != null){
@@ -70,9 +88,14 @@ public class QuestionServiceImpl implements QuestionService {
                 answerEntity.setAnswer_content(answerDTO.getAnswer_content());
                 answerEntity.setIsRight(answerDTO.getIsright());
                 answerEntity.setQuestion(questionEntity);
-                answerRepository.save(answerEntity);
+                answerEntity = answerRepository.save(answerEntity);
+                answerEntities.add(answerEntity);
             }
 
+        }
+        if(questionDto.getId() != null){
+            questionEntity.setAnswerEntitySet(answerEntities.stream().collect(Collectors.toSet()));
+            questionRepository.save(questionEntity);
         }
     }
 
@@ -97,19 +120,6 @@ public class QuestionServiceImpl implements QuestionService {
                 .audio_url(questionDto.getAudio_url())
                 .build();
         questionRepository.save(questionEntity);
-//        if (questionDto.getAnswerDTOS()!=null){
-//            questionDto.getAnswerDTOS().forEach(answerDTO -> {
-//
-//                if(answerService.getAll().contains(answerDTO)){
-//                    answerDTO.setQuestion_id(questionDto.getId());
-//                    answerService.updateOld(answerDTO);
-//                }
-//                else{
-//                    answerDTO.setQuestion_id(questionDto.getId());
-//                    answerService.insertNew(answerDTO);
-//                }
-//            });
-//        }
     }
 
     @Override
