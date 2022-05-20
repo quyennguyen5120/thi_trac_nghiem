@@ -1,8 +1,11 @@
 package com.example.todoapi.services.ServiceImpl;
 
+import com.example.todoapi.dtos.ExamDTO;
 import com.example.todoapi.dtos.QuestionDto;
 import com.example.todoapi.dtos.ResultDTO;
+import com.example.todoapi.entities.ExamEntity;
 import com.example.todoapi.entities.ResultEntity;
+import com.example.todoapi.repositories.ExamRepository;
 import com.example.todoapi.repositories.QuestionRepository;
 import com.example.todoapi.repositories.ResultRepository;
 import com.example.todoapi.services.ResultService;
@@ -20,6 +23,8 @@ public class ResultServiceImp implements ResultService {
     ResultRepository resultRepository;
     @Autowired
     QuestionRepository questionRepository;
+    @Autowired
+    ExamRepository examRepository;
     @Override
     public List<ResultDTO> getAll() {
         List<ResultEntity> resultEntities = resultRepository.findAll();
@@ -78,5 +83,16 @@ public class ResultServiceImp implements ResultService {
     @Override
     public List<ResultDTO> getQuestionDtos(Long userId, Long id) {
         return resultRepository.getAllByUserAndExam(userId, id);
+    }
+
+    @Override
+    public List<ExamDTO> getAllExamByUser(Long userId) {
+        List<ExamDTO> getAllExamByUser = examRepository.getAllExamByUser(userId);
+        List<ResultDTO> results = null;
+        for(ExamDTO e : getAllExamByUser){
+            results = this.getQuestionDtos(userId , e.getId());
+            e.setResultDTOS(results);
+        }
+        return getAllExamByUser;
     }
 }

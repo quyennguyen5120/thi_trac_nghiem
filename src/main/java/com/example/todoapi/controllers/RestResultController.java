@@ -61,6 +61,11 @@ public class RestResultController {
             return ResponseEntity.ok(resultService.getQuestionDtos(userId, id));
     }
 
+    @GetMapping("/getAllResultByUser/{userId}")
+    public ResponseEntity<?> getResultByExamAndUser(@PathVariable("userId") Long userId){
+        return ResponseEntity.ok(resultService.getAllExamByUser(userId));
+    }
+
     @RequestMapping(value = "/image", method = RequestMethod.GET,
             produces = MediaType.IMAGE_JPEG_VALUE)
     public void getImage(HttpServletResponse response) throws IOException {

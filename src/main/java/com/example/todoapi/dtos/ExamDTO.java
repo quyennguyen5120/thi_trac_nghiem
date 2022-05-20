@@ -18,6 +18,7 @@ public class ExamDTO {
     private String exam_name;
     private List<QuestionDto> questionDtos;
     private Long time_limit;
+    private List<ResultDTO> resultDTOS;
 
     public ExamDTO toDTO(ExamEntity examEntity){
         List<QuestionDto> questionDtos = new ArrayList<>();
@@ -32,5 +33,9 @@ public class ExamDTO {
                 .questionDtos(questionDtos)
                 .time_limit(examEntity.getTime_limit())
                 .build();
+    }
+    public ExamDTO(Long id, String exam_name){
+        this.id = id;
+        this.exam_name = exam_name;
     }
 }
