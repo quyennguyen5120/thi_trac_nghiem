@@ -19,7 +19,7 @@ public class ResultEntity extends BaseEntity{
     @JoinColumn(name = "question_id")
     private QuestionEntity question;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 

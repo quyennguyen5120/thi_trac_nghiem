@@ -38,7 +38,8 @@ public class CalculatorMarkServiceImpl implements CalculatorMarkService {
         ResultDTO resultDTO = null;
         if(calculatorDto.getExamId() != null && calculatorDto.getUserId() != null){
             ExamEntity examEntity = examRepository.getById(calculatorDto.getExamId());
-            resultRepository.deleteAll(resultRepository.getAllByUserAndExamZ(calculatorDto.getUserId(), calculatorDto.getExamId()));
+            List<ResultEntity> resultEntities = resultRepository.getAllByUserAndExamZ(calculatorDto.getUserId(), calculatorDto.getExamId());
+            resultRepository.deleteAll(resultEntities);
 
             UserEntity userEntity = userRepository.getById(calculatorDto.getUserId());
             if(examEntity != null){
