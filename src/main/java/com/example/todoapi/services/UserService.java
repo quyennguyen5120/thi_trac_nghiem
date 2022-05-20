@@ -20,8 +20,6 @@ public class UserService {
     @Autowired
     RoleRepository roleRepository;
     @Autowired
-    NoteRepository noteRepository;
-    @Autowired
     PasswordEncoder passwordEncoder;
 
     public UserEntity addNewUser(SignupRequest signupRequest){
