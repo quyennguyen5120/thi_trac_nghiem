@@ -64,7 +64,7 @@ public class CalculatorMarkServiceImpl implements CalculatorMarkService {
                         List<AnswerDTO> answerDTOS = answerRepository.getMultiAnswerRightByQuestion(question.getQuestion_id(), question.getListIdAnswer());
                         Boolean isRight = true;
                         for(AnswerDTO answerDTO : answerDTOS){
-                            if(answerDTO.getIsright() == false || answerDTO.getIsright() == null){
+                            if(answerDTO.getIsright() == null || (answerDTO.getIsright() != null && answerDTO.getIsright() == false )){
                                 isRight = false;
                                 break;
                             }
