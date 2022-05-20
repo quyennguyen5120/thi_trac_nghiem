@@ -59,17 +59,16 @@ public class QuestionServiceImpl implements QuestionService {
         questionDto.setId(questionEntity.getId());
         if (questionDto.getAnswerDTOS()!=null){
             questionDto.getAnswerDTOS().forEach(answerDTO -> {
-//            AnswerEntity answerEntity = answerRepository.getById(answerDTO.getId());
-//            answerEntitySet.add(answerEntity);
+            AnswerEntity answerEntity = null;
+                if(answerDTO.getId() != null){
+                    answerEntity = answerRepository.getById(answerDTO.getId());
+                }
+                if(answerEntity == null){
+                    answerEntity = new AnswerEntity();
+                }
+                answerEntity.setAnswer_content(answerDTO.getAnswer_content());
+                answerEntity.setIsRight(answerDTO.getIsright());
 
-                if(answerService.getAll().contains(answerDTO)){
-                    answerDTO.setQuestion_id(questionDto.getId());
-                    answerService.updateOld(answerDTO);
-                }
-                else{
-                    answerDTO.setQuestion_id(questionDto.getId());
-                    answerService.insertNew(answerDTO);
-                }
             });
         }
     }
