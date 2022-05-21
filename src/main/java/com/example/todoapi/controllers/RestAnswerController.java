@@ -31,7 +31,6 @@ public class RestAnswerController {
     public ResponseEntity<?> editAnswer(@PathVariable("id") Long id, @RequestBody AnswerDTO answerDTO){
         AnswerDTO answerDTO1 = answerService.getByID(id);
         answerDTO.setId(id);
-
         if(answerDTO.getIsright()!=null)
         answerDTO1.setIsright(answerDTO.getIsright());
         if(answerDTO.getAnswer_content()!=null){

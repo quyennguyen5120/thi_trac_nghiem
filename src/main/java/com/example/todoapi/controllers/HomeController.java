@@ -75,26 +75,26 @@ public class HomeController {
                 .orElseThrow(null);
     }
 
-    @GetMapping("/adduser")
-    public String addUser(){
-        RoleEntity roleUser = roleRepository.findByName("ROLE_USER");
-        UserEntity user = new UserEntity();
-        user.setUsername("user");
-        user.setPassword(passwordEncoder.encode("123"));
-        user.setRoles(Set.of(roleUser));
-        userRepository.save(user);
-        return "";
-    }
-    @GetMapping("/addadmin")
-    public String addadmin(){
-        RoleEntity roleUser = roleRepository.findByName("ROLE_ADMIN");
-        UserEntity user = new UserEntity();
-        user.setUsername("admin");
-        user.setPassword(passwordEncoder.encode("123"));
-        user.setRoles(Set.of(roleUser));
-        userRepository.save(user);
-        return "";
-    }
+//    @GetMapping("/adduser")
+//    public String addUser(){
+//        RoleEntity roleUser = roleRepository.findByName("ROLE_USER");
+//        UserEntity user = new UserEntity();
+//        user.setUsername("user");
+//        user.setPassword(passwordEncoder.encode("123"));
+//        user.setRoles(Set.of(roleUser));
+//        userRepository.save(user);
+//        return "";
+//    }
+//    @GetMapping("/addadmin")
+//    public String addadmin(){
+//        RoleEntity roleUser = roleRepository.findByName("ROLE_ADMIN");
+//        UserEntity user = new UserEntity();
+//                                                    user.setUsername("admin");
+//        user.setPassword(passwordEncoder.encode("123"));
+//        user.setRoles(Set.of(roleUser));
+//        userRepository.save(user);
+//        return "";
+//    }
 
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@RequestBody SignupRequest signupRequest){

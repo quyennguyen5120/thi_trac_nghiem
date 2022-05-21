@@ -8,6 +8,7 @@ import com.example.todoapi.services.QuestionService;
 import com.example.todoapi.services.ServiceImpl.QuestionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.LineNumberReader;
@@ -20,6 +21,7 @@ public class RestQuestionController {
     @Autowired
     AnswerService answerService;
 
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping("/{id}")
     public ResponseEntity<?> addQuestion(@PathVariable("id") Long id){
         if (questionService.getByID(id)!=null){
@@ -28,6 +30,7 @@ public class RestQuestionController {
         return ResponseEntity.badRequest().body(null);
     }
 
+    @Secured({"ROLE_ADMIN"})
     @PostMapping("/add")
     public ResponseEntity<?> addQuestion(@RequestBody QuestionDto questionDto){
         if (questionDto != null){
@@ -36,6 +39,7 @@ public class RestQuestionController {
         }
         return ResponseEntity.badRequest().body(null);
     }
+    @Secured({"ROLE_ADMIN"})
     @PutMapping("/edit/{id}")
     public ResponseEntity<?> editQuestion(@PathVariable("id") Long id,@RequestBody QuestionDto questionDto){
         if (questionDto != null){
@@ -45,6 +49,7 @@ public class RestQuestionController {
         }
         return ResponseEntity.badRequest().body(null);
     }
+    @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteQuestion(@PathVariable("id") Long id){
         if (questionService.getByID(id) != null){
@@ -54,11 +59,13 @@ public class RestQuestionController {
         return ResponseEntity.badRequest().body(null);
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping("/getQuestionByExamId/{examId}")
     public ResponseEntity<?> getQuestionByExam(@PathVariable("examId")Long examId){
         return ResponseEntity.ok(questionService.getQuestionByExamId(examId));
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping("/getById/{questionId}")
     public ResponseEntity<?> getQuestionById(@PathVariable("questionId")Long questionId){
         return ResponseEntity.ok(questionService.getByID(questionId));

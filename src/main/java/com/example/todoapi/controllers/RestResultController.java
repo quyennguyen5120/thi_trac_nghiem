@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,16 +57,18 @@ public class RestResultController {
         return ResponseEntity.ok(response);
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping("/getResultByExamAndUser/{userId}/{examId}")
     public ResponseEntity<?> getResultByExam(@PathVariable("userId") Long userId,@PathVariable("examId") Long id){
             return ResponseEntity.ok(resultService.getQuestionDtos(userId, id));
     }
-
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping("/getAllResultByUser/{userId}")
     public ResponseEntity<?> getResultByExamAndUser(@PathVariable("userId") Long userId){
         return ResponseEntity.ok(resultService.getAllExamByUser(userId));
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @RequestMapping(value = "/image", method = RequestMethod.GET,
             produces = MediaType.IMAGE_JPEG_VALUE)
     public void getImage(HttpServletResponse response) throws IOException {
