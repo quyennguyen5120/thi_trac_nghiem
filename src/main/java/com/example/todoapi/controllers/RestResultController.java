@@ -73,13 +73,4 @@ public class RestResultController {
     public ResponseEntity<?> ranking(){
         return ResponseEntity.ok(resultService.rankingUser());
     }
-
-    @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    @RequestMapping(value = "/image", method = RequestMethod.GET,
-            produces = MediaType.IMAGE_JPEG_VALUE)
-    public void getImage(HttpServletResponse response) throws IOException {
-        var imgFile = new ClassPathResource("images/abc.jpg");
-        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-        StreamUtils.copy(imgFile.getInputStream(), response.getOutputStream());
-    }
 }

@@ -65,8 +65,30 @@ public class QuestionServiceImpl implements QuestionService {
         questionEntity.setMark(questionDto.getMark());
         questionEntity.setVideo_url(questionDto.getVideo_url());
         questionEntity.setAudio_url(questionDto.getAudio_url());
-        questionEntity.setImage_url(questionDto.getImage_url());
+//        questionEntity.setImage_url(questionDto.getImage_url());
         questionEntity.setAnswerEntitySet(null);
+        if(!questionDto.getFile().isEmpty()){
+            MultipartFile file = questionDto.getFile();
+            String realativeFilePath = null;
+            Date date = new Date();
+            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            int year = localDate.getYear();
+            int month = localDate.getMonthValue();
+            String subFolder = month +"_"+year;
+            String fullUploadDir = directory + subFolder;
+            File checkDir = new File(fullUploadDir);
+            if(checkDir.exists() == true || checkDir.isFile() == true){
+                checkDir.mkdir();
+            }
+            try{
+                realativeFilePath = subFolder + Instant.now().getEpochSecond() + questionDto.getFile().getOriginalFilename();
+                Files.write(Paths.get(directory + realativeFilePath), file.getBytes());
+                questionEntity.setImage_url(realativeFilePath);
+            }
+            catch (Exception e){
+                System.out.println(e);
+            }
+        }
         questionEntity = questionRepository.save(questionEntity);
         List<AnswerEntity> answerEntities = new ArrayList<>();
 
@@ -94,27 +116,7 @@ public class QuestionServiceImpl implements QuestionService {
             questionEntity.setAnswerEntitySet(answerEntities.stream().collect(Collectors.toSet()));
             questionRepository.save(questionEntity);
         }
-        if(!questionDto.getFile().isEmpty()){
-            MultipartFile file = questionDto.getFile();
-            String realativeFilePath = null;
-            Date date = new Date();
-            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            int year = localDate.getYear();
-            int month = localDate.getMonthValue();
-            String subFolder = month +"_"+year;
-            String fullUploadDir = directory + subFolder;
-            File checkDir = new File(fullUploadDir);
-            if(checkDir.exists() == true || checkDir.isFile() == true){
-                checkDir.mkdir();
-            }
-            try{
-                realativeFilePath = subFolder + Instant.now().getEpochSecond() + questionDto.getFile().getOriginalFilename();
-                Files.write(Paths.get(directory + realativeFilePath), file.getBytes());
-            }
-            catch (Exception e){
-                System.out.println(e);
-            }
-        }
+
     }
 
     @Override
