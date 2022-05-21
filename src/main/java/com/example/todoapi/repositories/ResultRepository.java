@@ -16,4 +16,7 @@ public interface ResultRepository extends JpaRepository<ResultEntity,Long> {
 
     @Query("select r from ResultEntity r where r.userEntity.id=?1 and r.question.exam.id = ?2")
     public List<ResultEntity> getAllByUserAndExamZ(Long userId, Long examId);
+
+    @Query("select SUM(r.mark) from ResultEntity r where r.userEntity.id = ?1 and r.question.exam.id = ?2 ")
+    public Double sumScoreByUserAndExam(Long userId, Long examId);
 }

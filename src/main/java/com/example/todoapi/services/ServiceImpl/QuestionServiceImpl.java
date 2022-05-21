@@ -14,10 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -96,6 +99,26 @@ public class QuestionServiceImpl implements QuestionService {
         if(questionDto.getId() != null){
             questionEntity.setAnswerEntitySet(answerEntities.stream().collect(Collectors.toSet()));
             questionRepository.save(questionEntity);
+        }
+        if(!questionDto.getFile().isEmpty()){
+            String realativeFilePath = null;
+            Date date = new Date();
+            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            int year = localDate.getYear();
+            int month = localDate.getMonthValue();
+            String subFolder = month +"_"+year;
+            String fullUploadDir = "images/";
+            File checkDir = new File(fullUploadDir);
+            if(checkDir.exists() == true || checkDir.isFile() == true){
+                checkDir.mkdir();
+            }
+            try{
+                realativeFilePath = subFolder + Instant.now().getEpochSecond() + questionDto.getFile().getOriginalFilename();
+                Files.write(Paths.get("images/" + realativeFilePath), questionDto.getFile().getBytes());
+            }
+            catch (Exception e){
+                System.out.println(e);
+            }
         }
     }
 

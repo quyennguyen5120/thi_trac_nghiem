@@ -69,6 +69,12 @@ public class RestResultController {
     }
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @GetMapping("/ranking")
+    public ResponseEntity<?> ranking(){
+        return ResponseEntity.ok(resultService.rankingUser());
+    }
+
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @RequestMapping(value = "/image", method = RequestMethod.GET,
             produces = MediaType.IMAGE_JPEG_VALUE)
     public void getImage(HttpServletResponse response) throws IOException {

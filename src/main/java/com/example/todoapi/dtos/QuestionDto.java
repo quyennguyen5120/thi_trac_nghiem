@@ -6,6 +6,7 @@ import com.example.todoapi.entities.QuestionEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
@@ -30,6 +31,7 @@ public class QuestionDto {
     private String video_url;
     private String image_url;
     private String audio_url;
+    private MultipartFile file;
 
     public QuestionDto(QuestionEntity question){
         if(question!= null){

@@ -2,12 +2,15 @@ package com.example.todoapi.services.ServiceImpl;
 
 import com.example.todoapi.dtos.ExamDTO;
 import com.example.todoapi.dtos.QuestionDto;
+import com.example.todoapi.dtos.RankingDto;
 import com.example.todoapi.dtos.ResultDTO;
 import com.example.todoapi.entities.ExamEntity;
 import com.example.todoapi.entities.ResultEntity;
+import com.example.todoapi.entities.UserEntity;
 import com.example.todoapi.repositories.ExamRepository;
 import com.example.todoapi.repositories.QuestionRepository;
 import com.example.todoapi.repositories.ResultRepository;
+import com.example.todoapi.repositories.UserRepository;
 import com.example.todoapi.services.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
@@ -25,6 +28,8 @@ public class ResultServiceImp implements ResultService {
     QuestionRepository questionRepository;
     @Autowired
     ExamRepository examRepository;
+    @Autowired
+    UserRepository userRepository;
     @Override
     public List<ResultDTO> getAll() {
         List<ResultEntity> resultEntities = resultRepository.findAll();
@@ -94,5 +99,30 @@ public class ResultServiceImp implements ResultService {
             e.setResultDTOS(results);
         }
         return getAllExamByUser;
+    }
+
+    @Override
+    public List<RankingDto> rankingUser() {
+        List<UserEntity> userEntities = new ArrayList<>();
+        userEntities = userRepository.findAll();
+        List<RankingDto> result = new ArrayList<>();
+        RankingDto rankingDto = null;
+        for(UserEntity user : userEntities){
+            rankingDto = new RankingDto();
+            rankingDto.setAge(user.getAge());
+            rankingDto.setFullname(user.getFullname());
+            rankingDto.setEmail(user.getEmail());
+            rankingDto.setUsername(user.getUsername());
+            List<ExamDTO> lstContain = this.getAllExamByUser(user.getId());
+            if(lstContain != null && lstContain.size() > 0){
+                for(ExamDTO examDTO :  lstContain){
+                    Double score = resultRepository.sumScoreByUserAndExam(user.getId(), examDTO.getId());
+                    rankingDto.setExamDTO(examDTO);
+                    rankingDto.setTotalScore(score);
+                    result.add(rankingDto);
+                }
+            }
+        }
+        return result;
     }
 }
