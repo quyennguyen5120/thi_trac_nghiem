@@ -19,6 +19,7 @@ public class ExamDTO {
     private List<QuestionDto> questionDtos;
     private Long time_limit;
     private List<ResultDTO> resultDTOS;
+    private Double totalScore;
 
     public ExamDTO toDTO(ExamEntity examEntity){
         List<QuestionDto> questionDtos = new ArrayList<>();

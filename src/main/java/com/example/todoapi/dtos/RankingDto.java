@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,6 +15,5 @@ public class RankingDto {
     private String examName;
     private Integer age;
     private String email;
-    private Double totalScore;
-    private ExamDTO examDTO;
+    private List<ExamDTO> examDTO;
 }
