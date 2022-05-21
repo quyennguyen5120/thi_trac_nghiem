@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RequestMapping("/api/category")
 @RestController
 public class RestExamController {
@@ -27,7 +29,7 @@ public class RestExamController {
 
     @Secured({"ROLE_ADMIN"})
     @PostMapping("/add")
-    public ResponseEntity<?> addExam(@RequestBody ExamDTO examDTO){
+    public ResponseEntity<?> addExam(@RequestBody ExamDTO examDTO) throws IOException {
         if (examDTO != null){
             examService.insertNew(examDTO);
             return ResponseEntity.ok(examDTO);

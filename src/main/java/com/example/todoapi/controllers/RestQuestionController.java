@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.io.LineNumberReader;
 
 @RequestMapping("/api/question")
@@ -32,7 +34,7 @@ public class RestQuestionController {
 
     @Secured({"ROLE_ADMIN"})
     @PostMapping("/add")
-    public ResponseEntity<?> addQuestion(@RequestBody QuestionDto questionDto){
+    public ResponseEntity<?> addQuestion(@ModelAttribute QuestionDto questionDto) throws IOException {
         if (questionDto != null){
             questionService.insertNew(questionDto);
             return ResponseEntity.ok(questionDto);

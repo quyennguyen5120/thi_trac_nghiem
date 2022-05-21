@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.EscapedErrors;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RequestMapping("/api/answer")
 @RestController
 public class RestAnswerController {
@@ -23,7 +25,7 @@ public class RestAnswerController {
         return ResponseEntity.ok(answerService.getByID(id));
     }
     @PostMapping(produces = "application/json",value = "/add")
-    public ResponseEntity<?> addAnswer(@RequestBody AnswerDTO answerDTO){
+    public ResponseEntity<?> addAnswer(@RequestBody AnswerDTO answerDTO) throws IOException {
         answerService.insertNew(answerDTO);
         return ResponseEntity.ok(answerDTO);
     }

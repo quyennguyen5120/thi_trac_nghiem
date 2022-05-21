@@ -11,8 +11,10 @@ import com.example.todoapi.repositories.QuestionRepository;
 import com.example.todoapi.services.AnswerService;
 import com.example.todoapi.services.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -34,6 +36,8 @@ public class QuestionServiceImpl implements QuestionService {
     AnswerService answerService;
     @Autowired
     ExamRepository examRepository;
+    @Value("${config.upload}")
+    private String directory;
 
     @Override
     public List<QuestionDto> getAll() {
@@ -62,16 +66,6 @@ public class QuestionServiceImpl implements QuestionService {
         questionEntity.setVideo_url(questionDto.getVideo_url());
         questionEntity.setAudio_url(questionDto.getAudio_url());
         questionEntity.setImage_url(questionDto.getImage_url());
-//         questionEntity = QuestionEntity.builder()
-//                .question_content(questionDto.getQuestion_content())
-//                .question_type(questionDto.getQuestion_type())
-//                .answerEntitySet(answerEntitySet)
-//                .exam(questionDto.getExamDto() != null ? examRepository.getById(questionDto.getExamDto().getId()) : null)
-//                .mark(questionDto.getMark())
-//                .video_url(questionDto.getVideo_url())
-//                .image_url(questionDto.getImage_url())
-//                .audio_url(questionDto.getAudio_url())
-//                .build();
         questionEntity.setAnswerEntitySet(null);
         questionEntity = questionRepository.save(questionEntity);
         List<AnswerEntity> answerEntities = new ArrayList<>();
@@ -101,20 +95,21 @@ public class QuestionServiceImpl implements QuestionService {
             questionRepository.save(questionEntity);
         }
         if(!questionDto.getFile().isEmpty()){
+            MultipartFile file = questionDto.getFile();
             String realativeFilePath = null;
             Date date = new Date();
             LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             int year = localDate.getYear();
             int month = localDate.getMonthValue();
             String subFolder = month +"_"+year;
-            String fullUploadDir = "images/";
+            String fullUploadDir = directory + subFolder;
             File checkDir = new File(fullUploadDir);
             if(checkDir.exists() == true || checkDir.isFile() == true){
                 checkDir.mkdir();
             }
             try{
                 realativeFilePath = subFolder + Instant.now().getEpochSecond() + questionDto.getFile().getOriginalFilename();
-                Files.write(Paths.get("images/" + realativeFilePath), questionDto.getFile().getBytes());
+                Files.write(Paths.get(directory + realativeFilePath), file.getBytes());
             }
             catch (Exception e){
                 System.out.println(e);
