@@ -67,7 +67,7 @@ public class QuestionServiceImpl implements QuestionService {
         questionEntity.setAudio_url(questionDto.getAudio_url());
 //        questionEntity.setImage_url(questionDto.getImage_url());
         questionEntity.setAnswerEntitySet(null);
-        if(!questionDto.getFile().isEmpty()){
+        if(questionDto.getFile() != null && !questionDto.getFile().isEmpty()){
             MultipartFile file = questionDto.getFile();
             String realativeFilePath = null;
             Date date = new Date();

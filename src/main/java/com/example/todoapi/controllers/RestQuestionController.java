@@ -37,7 +37,7 @@ public class RestQuestionController {
     public ResponseEntity<?> addQuestion(@ModelAttribute QuestionDto questionDto) throws IOException {
         if (questionDto != null){
             questionService.insertNew(questionDto);
-            if(!questionDto.getFile().isEmpty())
+            if(questionDto.getFile() != null && !questionDto.getFile().isEmpty())
                 questionDto.setFile(null);
             return ResponseEntity.ok(questionDto);
         }
