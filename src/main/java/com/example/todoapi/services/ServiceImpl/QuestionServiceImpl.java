@@ -82,8 +82,9 @@ public class QuestionServiceImpl implements QuestionService {
             }
             try{
                 realativeFilePath = subFolder + Instant.now().getEpochSecond() + questionDto.getFile().getOriginalFilename();
-                Files.write(Paths.get(directory + realativeFilePath), file.getBytes());
-                questionEntity.setImage_url(realativeFilePath);
+                String new_name = realativeFilePath.replace(" ", "");
+                Files.write(Paths.get(directory + new_name), file.getBytes());
+                questionEntity.setImage_url(new_name);
             }
             catch (Exception e){
                 System.out.println(e);
