@@ -26,7 +26,7 @@ public class TodoApiApplication {
                                 "http://192.168.1.5:3000", "http://192.168.1.5"
                                 , "http://46.137.236.193","http://46.137.236.193:80"
                                 , "http://54.254.26.56",
-                                "http://54.151.150.225", "http://13.213.68.228")
+                                "http://54.151.150.225", "http://13.213.68.228", "http://52.221.233.29")
                         .allowCredentials(true)
                         .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS");
             }
