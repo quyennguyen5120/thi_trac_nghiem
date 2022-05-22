@@ -20,11 +20,10 @@ public class TodoApiApplication {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-//                        .allowedOrigins("http://10.0.0.98:3000", "http://10.0.0.63:3000"
-//                                ,"http://159.223.45.168:8080", "http://localhost:3000",
-//                                "http://10.0.0.79:8080", "http://13.215.252.13",
-//                                "http://192.168.1.5:3000", "http://192.168.1.5")
-                        .allowedOrigins("*")
+                        .allowedOrigins("http://10.0.0.98:3000", "http://10.0.0.63:3000"
+                                ,"http://159.223.45.168:8080", "http://localhost:3000",
+                                "http://10.0.0.79:8080", "http://13.215.252.13",
+                                "http://192.168.1.5:3000", "http://192.168.1.5")
                         .allowCredentials(true)
                         .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS");
             }
