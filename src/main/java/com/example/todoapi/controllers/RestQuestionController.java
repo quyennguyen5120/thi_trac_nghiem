@@ -3,6 +3,7 @@ package com.example.todoapi.controllers;
 import com.example.todoapi.dtos.QuestionDto;
 import com.example.todoapi.entities.QuestionEntity;
 import com.example.todoapi.repositories.QuestionRepository;
+import com.example.todoapi.repositories.ResultRepository;
 import com.example.todoapi.services.AnswerService;
 import com.example.todoapi.services.QuestionService;
 import com.example.todoapi.services.ServiceImpl.QuestionServiceImpl;
@@ -22,6 +23,10 @@ public class RestQuestionController {
     QuestionService questionService;
     @Autowired
     AnswerService answerService;
+    @Autowired
+    ResultRepository resultRepository;
+    @Autowired
+    QuestionRepository questionRepository;
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping("/{id}")
@@ -56,11 +61,11 @@ public class RestQuestionController {
     @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteQuestion(@PathVariable("id") Long id){
-        if (questionService.getByID(id) != null){
-            questionService.deleteOld(id);
-            return ResponseEntity.ok(id);
+        if(resultRepository.countRRz(id) > 0){
+            return ResponseEntity.ok(false);
         }
-        return ResponseEntity.badRequest().body(null);
+        questionRepository.deleteById(id);
+        return ResponseEntity.ok(true);
     }
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})

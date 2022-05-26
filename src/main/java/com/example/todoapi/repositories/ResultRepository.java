@@ -22,4 +22,7 @@ public interface ResultRepository extends JpaRepository<ResultEntity,Long> {
 
     @Query("select COUNT(r.id) from ResultEntity r where r.question.exam.id = ?1 ")
     public Integer countR(Long examId);
+
+    @Query("select COUNT(r.id) from ResultEntity r where r.question.id = ?1 ")
+    public Integer countRRz(Long questionId);
 }
