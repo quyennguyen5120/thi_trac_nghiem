@@ -13,7 +13,6 @@ public class TodoApiApplication {
         SpringApplication.run(TodoApiApplication.class, args);
     }
 
-
     @Bean
     public WebMvcConfigurer configurer() {
         return new WebMvcConfigurer() {

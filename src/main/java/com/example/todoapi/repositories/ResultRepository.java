@@ -19,4 +19,7 @@ public interface ResultRepository extends JpaRepository<ResultEntity,Long> {
 
     @Query("select SUM(r.mark) from ResultEntity r where r.userEntity.id = ?1 and r.question.exam.id = ?2 ")
     public Double sumScoreByUserAndExam(Long userId, Long examId);
+
+    @Query("select COUNT(r.id) from ResultEntity r where r.question.exam.id = ?1 ")
+    public Integer countR(Long examId);
 }

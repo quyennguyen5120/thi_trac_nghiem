@@ -1,10 +1,14 @@
 package com.example.todoapi.controllers;
 
 import com.example.todoapi.dtos.ExamDTO;
+import com.example.todoapi.entities.ExamEntity;
+import com.example.todoapi.repositories.ExamRepository;
+import com.example.todoapi.repositories.ResultRepository;
 import com.example.todoapi.services.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -14,6 +18,10 @@ import java.io.IOException;
 public class RestExamController {
     @Autowired
     ExamService examService;
+    @Autowired
+    ExamRepository examRepository;
+    @Autowired
+    ResultRepository resultRepository;
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping
@@ -49,8 +57,12 @@ public class RestExamController {
 
     @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/delete/{id}")
+    @Transactional
     public ResponseEntity<?> deleteExam(@PathVariable Long id){
-        examService.deleteOld(id);
-        return ResponseEntity.ok(id);
+        if(resultRepository.countR(id) > 0){
+            return ResponseEntity.ok(false);
+        }
+          examRepository.deleteById(id);
+          return ResponseEntity.ok(true);
     }
 }
